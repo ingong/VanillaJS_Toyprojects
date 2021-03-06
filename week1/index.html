@@ -56,6 +56,7 @@
     },
   ]
 
+  // data 를 li 태그 안의 내용으로 넣어주는 메서드
   function convertLiToHTMLString(data) {
     const { text, isCompleted } = data
     return `<li>${isCompleted ? `<s>${text}</s>` : text}</li>`
@@ -92,14 +93,13 @@
     if (!selector) throw new Error('target is empty')
     if (!document.querySelector(selector)) throw new Error('Can\'t find target in DOM')
     validate(data) // data validate
-
     this.data = data
     this.target = document.querySelector(selector)
     this.render = function () {
       this.target.innerHTML = `<ul>${this.data.map(v => convertLiToHTMLString(v))
         .join('')}</ul>`
     }
-    // 새로운 데이터로 바꿔주는 함수라고 생각한다
+    // 새로운 투두리스트를 작성하게 하는 메서드
     this.setState = function (nextData) {
       validate(nextData)
       this.data = nextData
@@ -108,7 +108,6 @@
   }
 
   try {
-    // new 키워드를 통해서 
     const todoList = new TodoList(data, '#todo-list')
     todoList.render()
     const todoList2 = new TodoList(data2, '#todo-list2')
