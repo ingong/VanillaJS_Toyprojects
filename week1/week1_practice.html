@@ -57,6 +57,35 @@
     },
     ]
 
+    function convertLiToHTMLString(data){
+        const { text, isCompleted } = data
+        return `<li>${isCompleted ? `<s>${text}</s>` : text}</li>`
+    }
+    
+    function checkArrayElementType(objArr){
+        for (const element of objArr){
+            const keys = Object.keys(element)
+            const validKeys = new Set(['text', 'isCompleted'])
+            for (const key of keys){
+                if (!validKeys.has(key)){
+                    return false
+                } else {
+                    validKeys.delete(key)
+                }
+            }
+            if (validKeys.size !== 0) return false
+        }
+        return true
+    }
+
+    function validate(data){
+        if (data.length === 0) throw new Error('arguments is empty')
+        if (!Array.isArray(data)) throw new Error('data must be Array')
+        if (!data.length) throw new Error('data array is empty')
+        if (data.some(element => !element) || !checkArrayElementType(data)){
+            throw new Error('Type Error')
+        }
+    }
     function TodoList(data, selector){
         // 에러처리 : 인스턴스가 TodoList 의 인스턴스 x / dom 선택자(id) / dom 요소  
         // 데이터를 validate 하는 함수
@@ -65,14 +94,17 @@
         if (!(this instanceof arguments.callee)) throw new Error("Use new keyword")
         if (!selector) throw new Error('target is empty')
         if (!document.querySelector(selector)) throw new Error('Can\'t find target in DOM')
-        // validate(data)
-        this.data = data;
+        validate(data)
+        this.data = data
         this.target = document.querySelector(selector);
         this.render = function () {
-            this.target.innerHTML
+            this.target.innerHTML = `<ul>${this.data.map(v => convertLiToHTMLString(v))
+                .join('')}</ul>`
         }
         this.setState = function (nextData) {
-            
+            validate(nextData)
+            this.data = nextData
+            this.render()
         }
     }
 
@@ -80,15 +112,15 @@
     try {
         const todoList = new TodoList(data, '#todo-list')
         todoList.render()
-        const todoList2 = new TodoList(data, '#todo-list2')
+        const todoList2 = new TodoList(data2, '#todo-list2')
         todoList2.render()
-        const todoList3 = new TodoList(data, '#todo-list3')
+        const todoList3 = new TodoList(data3, '#todo-list3')
         todoList3.render()
         todoList3.setState([
             {
                 text: "이벤트 버블링 공부하기",
                 isCompleted: false,
-            }
+            },
             {
                 text: "파이썬으로 알고리즘 공부하기",
                 isCompleted: false,
