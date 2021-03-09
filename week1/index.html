@@ -73,8 +73,10 @@
           validKeys.delete(key)
         }
       }
+      // validKeys 를 for 문 순회 후에 다 delete 되었어야하는데, 아니라면 false 를 반환
       if (validKeys.size !== 0) return false
     }
+    // 결과적으로 for 문을 순회하였을 때, 아무것도 return 값이 되지 않는다면 true 를 반환
     return true
   }
 
