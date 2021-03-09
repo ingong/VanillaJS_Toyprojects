@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
+</head>
+<body>
+    <h1>VanillaJS 1주차</h1>
+    <div>
+        <h2>Todo1</h2>
+        <div id="todo-list"></div>
+    </div>
+    <div>
+        <h2>Todo2</h2>
+        <div id="todo-list2"></div>
+    </div>
+    <div>
+        <h2>Todo3</h2>
+        <div id="todo-list3"></div>
+    </div>
+<script>
+    const data = [
+    {
+      text: '실행 컨텍스트 공부하기',
+      isCompleted: true,
+    },
+    {
+      text: '프로그래머스 풀기',
+      isCompleted: false,
+    },
+    ]
+
+    const data2 = [
+    {
+      text: '잠 일찍 자기',
+      isCompleted: false,
+    },
+    {
+      text: 'arrow function this 공부하기',
+      isCompleted: true,
+    },
+    ]
+
+    const data3 = [
+    {
+      text: '집 청소하기',
+      isCompleted: true,
+    },
+    {
+      text: '분리수거 하기',
+      isCompleted: true,
+    },
+    {
+      text: 'JS 이벤트 공부하기',
+      isCompleted: false
+    },
+    ]
+
+    function TodoList(data, selector){
+        // 에러처리 : 인스턴스가 TodoList 의 인스턴스 x / dom 선택자(id) / dom 요소  
+        // 데이터를 validate 하는 함수
+        // property 정의 : data / target  
+        // method 정의 : render / setState 
+        if (!(this instanceof arguments.callee)) throw new Error("Use new keyword")
+        if (!selector) throw new Error('target is empty')
+        if (!document.querySelector(selector)) throw new Error('Can\'t find target in DOM')
+        // validate(data)
+        this.data = data;
+        this.target = document.querySelector(selector);
+        this.render = function () {
+            this.target.innerHTML
+        }
+        this.setState = function (nextData) {
+            
+        }
+    }
+
+
+    try {
+        const todoList = new TodoList(data, '#todo-list')
+        todoList.render()
+        const todoList2 = new TodoList(data, '#todo-list2')
+        todoList2.render()
+        const todoList3 = new TodoList(data, '#todo-list3')
+        todoList3.render()
+        todoList3.setState([
+            {
+                text: "이벤트 버블링 공부하기",
+                isCompleted: false,
+            }
+            {
+                text: "파이썬으로 알고리즘 공부하기",
+                isCompleted: false,
+            }
+        ])
+    } catch (e) {
+        console.log(e)
+    }
+</script>
+</body>
+</html>
