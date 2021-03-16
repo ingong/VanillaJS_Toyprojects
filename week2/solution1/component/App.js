@@ -9,14 +9,12 @@ function App(selector, title) {
 
   this.init = () => {
     this.componentMount()
-    // HTML 에 보여줄 요소를 보여주는 과정 
     this.$target.innerHTML = `<h1>${title}</h1>
                               <div class=${todoInputSeletor}></div>
                               <ul class=${todoListSelector}></ul>
                               <div class=${todoCountSelector}></div>
                               <div><button class="remove-all-btn">Remove ALL</button></div>`
 
-    //
     this.$todoInput = new TodoInput({
       selector: `.${todoInputSeletor}`,
       onInput: handleInput,
@@ -52,17 +50,12 @@ function App(selector, title) {
     saveDataToLocalStorage(newData)
   }
 
-  // localStorage 에서 데이터 불러오기
   this.componentMount = () => {
-    // 이미 localStorage 에 있는 데이터를 parse 를 통해 가져온다, 공백일 수도 있으니 || 사용
     const initialData = JSON.parse(window.localStorage.getItem('SAVED_DATA')) || []
-    // 데이터 유효성 검사 
     checkData(initialData)
     this.data = initialData
   }
 
-  // const 변수명 = (value) => {} 
-  // 이게 뭐야 도대체?
   const handleInput = (value) => {
     const newData = [...this.data, {
       id: this.data.length === 0 ? 0 : Math.max(...this.data.map((element) => element.id)) + 1,

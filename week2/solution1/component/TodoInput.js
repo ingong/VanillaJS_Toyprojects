@@ -14,8 +14,11 @@ function TodoInput(props) {
         if (e.target.value.trim() === '') {
           alert('할 일을 입력해줘..')
         } else {
+          // handleInput 
           onInput(e.target.value)
+          // input 태그에 값 빈 문자열로 reset 
           e.target.value = ''
+          // focus
           this.$input.focus()
         }
       }
